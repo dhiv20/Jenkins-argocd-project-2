@@ -16,6 +16,7 @@ pipeline {
     stage('Build and Test') {
       steps {
         sh 'ls -ltr'
+        sh 'apt update'
         sh 'apt install openjdk-17-jdk -y'
         // build the project and create a JAR file
         sh 'mvn clean package'
