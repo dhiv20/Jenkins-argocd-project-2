@@ -30,6 +30,10 @@ pipeline {
         }
       }
     }
+
+
+
+
     stage('Build and Push Docker Image') {
       environment {
         DOCKER_IMAGE = "d2bdocker/ultimate-cicd:${BUILD_NUMBER}"
@@ -46,7 +50,18 @@ pipeline {
         }
       }
     }
-        stage('Update K8S manifest & push to Repo') {
+
+
+
+    stage('Checkout K8S manifest SCM') {
+            steps {
+                git credentialsId: 'github',
+                    url: 'https://github.com/dhiv20/maven-sonar-jenkins-argocd-proj2-deployments.git',
+                    branch: 'master'
+            }
+        }
+
+      stage('Update K8S manifest & push to Repo') {
             steps {
                 script {
                     withCredentials([gitUsernamePassword(credentialsId: 'github')]) {
