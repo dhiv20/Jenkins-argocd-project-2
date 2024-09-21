@@ -31,7 +31,14 @@ pipeline {
       }
     }
 
-
+    post {
+        always {
+            echo 'Slack Notifications.'
+            //Add channel name
+            slackSend channel: 'cicd',
+            message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+        }
+    }
 
 
     stage('Build and Push Docker Image') {
