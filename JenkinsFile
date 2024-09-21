@@ -70,9 +70,9 @@ pipeline {
                         EXISTING_TAG=$(grep 'image: d2bdocker/ultimate-cicd:' deployment.yml | awk -F ':' '{print $3}')
                         sed -i "s|image: d2bdocker/ultimate-cicd:${EXISTING_TAG}|image: d2bdocker/ultimate-cicd:${BUILD_NUMBER}|g" deployment.yml
                         cat deployment.yml
-                        git add deployment.yml
                         git config --global user.email "divy.bhatnagar@outlook.com"
                         git config --global user.name "Divye-Automatic"
+                        git add deployment.yml
                         git commit -m "Updated the deploy yaml | Jenkins Pipeline"
                         git remote -v
                         git push 'https://github.com/dhiv20/maven-sonar-jenkins-argocd-proj2-deployments.git' HEAD:master
