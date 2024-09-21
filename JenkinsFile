@@ -72,6 +72,7 @@ pipeline {
                         cat deployment.yml
                         git config --global user.email "divy.bhatnagar@outlook.com"
                         git config --global user.name "Divye-Automatic"
+                        git config --global --add safe.directory /var/lib/jenkins/workspace/ultimate-cicd
                         git add deployment.yml
                         git commit -m "Updated the deploy yaml | Jenkins Pipeline"
                         git remote -v
