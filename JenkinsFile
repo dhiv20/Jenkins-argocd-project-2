@@ -7,19 +7,32 @@ pipeline {
 }
   
   stages {
+
+
     stage('Checkout') {
       steps {
         sh 'echo passed'
         //git branch: 'main', url: 'https://github.com/dhiv20/maven-sonar-jenkins-argocd-proj2.git'
       }
     }
+
+
     stage('Build and Test') {
       steps {
         sh 'ls -ltr'
         // build the project and create a JAR file
         sh 'mvn clean package'
       }
+    post {
+        always {
+            echo 'Slack Notifications.'
+            //Add channel name
+            slackSend channel: 'cicd',
+            message: " Build & Unit Test: ${currentBuild.currentResult} Job: ${env.JOB_NAME} Build: ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL} "
     }
+}
+}
+
     stage('Static Code Analysis') {
       environment {
         SONAR_URL = "http://192.168.49.1:9000"
@@ -29,13 +42,12 @@ pipeline {
           sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
         }
       }
-    
     post {
         always {
             echo 'Slack Notifications.'
             //Add channel name
             slackSend channel: 'cicd',
-            message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+            message: " Static Code Analysis: ${currentBuild.currentResult} Job: ${env.JOB_NAME} Build: ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL} "
         }
     }
 }
@@ -57,7 +69,6 @@ pipeline {
         }
       }
     }
-
 
 
     stage('Checkout K8S manifest SCM') {
