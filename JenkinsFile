@@ -9,10 +9,10 @@ pipeline {
     stages {
 
 
-        stage('Checkout') {
+        stage('Git Checkout') {
             steps {
                 sh 'echo passed'
-                //git branch: 'main', url: 'https://github.com/dhiv20/maven-sonar-jenkins-argocd-proj2.git'
+                //git branch: 'main', url: 'https://github.com/dhiv20/Jenkins-argocd-project-2.git'
             }
         }
 
@@ -75,7 +75,7 @@ pipeline {
         stage('Checkout K8S manifest SCM') {
             steps {
                 git credentialsId: 'github',
-                url: 'https://github.com/dhiv20/maven-sonar-jenkins-argocd-proj2-deployments.git',
+                url: 'https://github.com/dhiv20/Jenkins-argocd-project-2-deployments.git',
                 branch: 'master'
             }
         }
@@ -96,7 +96,7 @@ pipeline {
                         git add deployment.yml
                         git commit -m "Updated the deploy yaml | Jenkins Pipeline"
                         git remote -v
-                        git push 'https://github.com/dhiv20/maven-sonar-jenkins-argocd-proj2-deployments.git' HEAD:master
+                        git push 'https://github.com/dhiv20/Jenkins-argocd-project-2-deployments.git' HEAD:master
                         '''
                     }
                 }
